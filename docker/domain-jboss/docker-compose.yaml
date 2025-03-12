@@ -1,8 +1,6 @@
-version: "3.9"
-
 services:
   wildfly-dc:
-    image: quay.io/wildfly/wildfly:latest
+    image: quay.io/wildfly/wildfly-domain:latest
     container_name: wildfly-dc
     ports:
       - "9990:9990"   # Admin Console
@@ -16,7 +14,7 @@ services:
     command: "/opt/jboss/wildfly/bin/domain.sh -b 0.0.0.0 -bmanagement 0.0.0.0"
 
   wildfly-host1:
-    image: quay.io/wildfly/wildfly:latest
+    image: quay.io/wildfly/wildfly-domain:latest
     container_name: wildfly-host1
     networks:
       - wildfly-net
@@ -30,7 +28,7 @@ services:
     command: "/opt/jboss/wildfly/bin/host.sh --domain-config=host.xml --host-config=host.xml"
 
   wildfly-host2:
-    image: quay.io/wildfly/wildfly:latest
+    image: quay.io/wildfly/wildfly-domain:latest
     container_name: wildfly-host2
     networks:
       - wildfly-net
