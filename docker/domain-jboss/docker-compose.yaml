@@ -1,0 +1,33 @@
+services:
+  wildfly-dc:
+    image: quay.io/wildfly/wildfly:latest
+    container_name: wildfly-dc
+    ports:
+      - "9990:9990"
+    networks:
+      - wildfly-net
+    command: "/opt/jboss/wildfly/bin/domain.sh -b 0.0.0.0 -bmanagement 0.0.0.0"
+
+  wildfly-host1:
+    image: quay.io/wildfly/wildfly:latest
+    container_name: wildfly-host1
+    networks:
+      - wildfly-net
+    depends_on:
+      - wildfly-dc
+    environment:
+      - JBOSS_HOST=wildfly-dc
+
+  wildfly-host2:
+    image: quay.io/wildfly/wildfly:latest
+    container_name: wildfly-host2
+    networks:
+      - wildfly-net
+    depends_on:
+      - wildfly-dc
+    environment:
+      - JBOSS_HOST=wildfly-dc
+
+networks:
+  wildfly-net:
+    driver: bridge

@@ -1,0 +1,30 @@
+services:
+  jboss1:
+    image: jboss/wildfly:latest
+    container_name: jboss-instance-1
+    ports:
+      - "8081:8080"
+      - "9991:9990"
+    environment:
+      - JBOSS_USER=admin
+      - JBOSS_PASSWORD=Admin123!
+      - JBOSS_BIND=0.0.0.0
+    command: ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0"]
+    volumes:
+      - ./standalone1.xml:/opt/jboss/wildfly/standalone/configuration/standalone.xml
+    restart: unless-stopped
+
+  jboss2:
+    image: jboss/wildfly:latest
+    container_name: jboss-instance-2
+    ports:
+      - "8082:8080"
+      - "9992:9990"
+    environment:
+      - JBOSS_USER=admin
+      - JBOSS_PASSWORD=Admin123!
+      - JBOSS_BIND=0.0.0.0  
+    command: ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0"]
+    volumes:
+      - ./standalone2.xml:/opt/jboss/wildfly/standalone/configuration/standalone.xml
+    restart: unless-stopped
