@@ -1,45 +1,33 @@
+
 services:
   wildfly-dc:
-    image: quay.io/wildfly/wildfly-domain:latest
+    image: quay.io/wildfly/wildfly:latest
     container_name: wildfly-dc
     ports:
-      - "9990:9990"   # Admin Console
-      - "9999:9999"   # Host Controller
-      - "8080:8080"   # HTTP
+      - "9990:9990"
     networks:
       - wildfly-net
-    volumes:
-      - ./domain/domain.xml:/opt/jboss/wildfly/domain/configuration/domain.xml
-      - ./domain/host-master.xml:/opt/jboss/wildfly/domain/configuration/host.xml
     command: "/opt/jboss/wildfly/bin/domain.sh -b 0.0.0.0 -bmanagement 0.0.0.0"
 
   wildfly-host1:
-    image: quay.io/wildfly/wildfly-domain:latest
+    image: quay.io/wildfly/wildfly:latest
     container_name: wildfly-host1
     networks:
       - wildfly-net
     depends_on:
       - wildfly-dc
-    volumes:
-      - ./host1/host-slave.xml:/opt/jboss/wildfly/domain/configuration/host.xml
     environment:
-      - JBOSS_HOST_NAME=wildfly-host1
-      - JBOSS_DOMAIN_MASTER_ADDRESS=wildfly-dc
-    command: "/opt/jboss/wildfly/bin/host.sh --domain-config=host.xml --host-config=host.xml"
+      - JBOSS_HOST=wildfly-dc
 
   wildfly-host2:
-    image: quay.io/wildfly/wildfly-domain:latest
+    image: quay.io/wildfly/wildfly:latest
     container_name: wildfly-host2
     networks:
       - wildfly-net
     depends_on:
       - wildfly-dc
-    volumes:
-      - ./host2/host-slave.xml:/opt/jboss/wildfly/domain/configuration/host.xml
     environment:
-      - JBOSS_HOST_NAME=wildfly-host2
-      - JBOSS_DOMAIN_MASTER_ADDRESS=wildfly-dc
-    command: "/opt/jboss/wildfly/bin/host.sh --domain-config=host.xml --host-config=host.xml"
+      - JBOSS_HOST=wildfly-dc
 
 networks:
   wildfly-net:
