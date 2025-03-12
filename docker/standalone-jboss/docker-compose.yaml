@@ -28,4 +28,3 @@ services:
     volumes:
       - ./standalone2.xml:/opt/jboss/wildfly/standalone/configuration/standalone.xml
     restart: unless-stopped
-
