@@ -7,8 +7,8 @@ services:
     networks:
       - wildfly-net
     environment:
-      - WILDFLY_USER=admin
-      - WILDFLY_PASSWORD=SuperSecure@2025
+      - WILDFLY_USER=${WILDFLY_USER}
+      - WILDFLY_PASSWORD=${WILDFLY_PASSWORD}
     command: >
       /bin/bash -c "if [ ! -f /opt/jboss/wildfly/domain/configuration/mgmt-users.properties ]; then
       /opt/jboss/wildfly/bin/add-user.sh -u $WILDFLY_USER -p $WILDFLY_PASSWORD --silent;
