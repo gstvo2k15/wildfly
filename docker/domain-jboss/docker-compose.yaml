@@ -11,9 +11,8 @@ services:
       - WILDFLY_PASSWORD=${WILDFLY_PASSWORD}
     command: >
       /bin/bash -c "if [ ! -f /opt/jboss/wildfly/domain/configuration/mgmt-users.properties ]; then
-      /opt/jboss/wildfly/bin/add-user.sh -u $WILDFLY_USER -p $WILDFLY_PASSWORD --silent;
-      fi &&
-      /opt/jboss/wildfly/bin/domain.sh -b 0.0.0.0 -bmanagement 0.0.0.0"
+      /opt/jboss/wildfly/bin/add-user.sh -u $WILDFLY_USER -p $WILDFLY_PASSWORD -g SuperUser --silent;
+      fi && /opt/jboss/wildfly/bin/domain.sh -b 0.0.0.0 -bmanagement 0.0.0.0"
 
   wildfly-host1:
     image: quay.io/wildfly/wildfly:latest
